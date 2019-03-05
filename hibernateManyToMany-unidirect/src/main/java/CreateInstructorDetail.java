@@ -1,5 +1,4 @@
-package demo;
-
+import demo.Student;
 import entity.Course;
 import entity.Instructor;
 import entity.InstructorDetail;
@@ -8,9 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-
-public class CreateInstructor {
-
+public class CreateInstructorDetail {
     public static void main(String[] args) {
         SessionFactory factory = new Configuration()
                 .configure("hibernate.cfg.xml")
@@ -24,18 +21,23 @@ public class CreateInstructor {
         Session session = factory.getCurrentSession();
 
         try {
+
             session.beginTransaction();
 
-            Instructor instructor = new Instructor("Franek", "Kimono", "fKimono@gmail.com");
+            int instructorID = 1;
 
-            session.save(instructor);
+            Instructor instructor = session.get(Instructor.class,instructorID);
+
+            InstructorDetail instructorDetail = new InstructorDetail("snake.youtube.com","spying");
+
+            instructor.setInstructorDetailId(instructorDetail);
 
             session.getTransaction().commit();
 
-        } finally {
+
+        }finally {
             session.close();
             factory.close();
         }
-
     }
 }
